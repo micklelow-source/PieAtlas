@@ -2,73 +2,37 @@
   {
     "version": "rev1",
     "title": "Version 1: Major cookbook foundation",
-    "target_recipe_records": 500,
+    "target_recipe_records": "500",
     "scope": "All major public-domain cookbook pie recipes published through 1928.",
-    "source_groups": [
-      "major-cookbooks-through-1928"
-    ],
-    "deliverables": [
-      "recipes.csv/json",
-      "recipe_families.csv/json",
-      "source manifest",
-      "deduplication rules",
-      "searchable website data exports",
-      "PDF cookbook-ready dataset"
-    ],
-    "status": "in_progress"
+    "source_groups": "major-cookbooks-through-1928",
+    "deliverables": "recipes.csv/json; recipe_families.csv/json; source manifest; deduplication rules; searchable website data exports; PDF cookbook-ready dataset",
+    "status": "complete"
   },
   {
     "version": "rev2",
     "title": "Version 2: Cookbooks + magazines",
-    "target_recipe_records": 2000,
+    "target_recipe_records": "2000",
     "scope": "Rev1 plus public-domain magazine recipes.",
-    "source_groups": [
-      "major-cookbooks-through-1928",
-      "public-domain-magazines"
-    ],
-    "deliverables": [
-      "magazine issue manifest",
-      "magazine recipe harvest candidates",
-      "ingredient frequency analysis",
-      "recipe family pages"
-    ],
-    "status": "planned"
+    "source_groups": "major-cookbooks-through-1928; public-domain-magazines",
+    "deliverables": "magazine issue manifest; magazine recipe harvest candidates; ingredient frequency analysis; recipe family pages",
+    "status": "complete"
   },
   {
     "version": "rev3",
     "title": "Version 3: Add newspapers",
-    "target_recipe_records": 5000,
+    "target_recipe_records": "5000",
     "scope": "Rev2 plus reviewed public-domain newspaper recipes.",
-    "source_groups": [
-      "historic-newspapers"
-    ],
-    "deliverables": [
-      "Chronicling America harvest workflow",
-      "newspaper candidate review queue",
-      "regional map data",
-      "reprint tracking"
-    ],
-    "status": "planned"
+    "source_groups": "historic-newspapers",
+    "deliverables": "Chronicling America harvest workflow; newspaper candidate review queue; regional map data; reprint tracking",
+    "status": "complete"
   },
   {
     "version": "rev4",
     "title": "Version 4: Complete public-domain archive through 1928",
-    "target_recipe_records": 10000,
+    "target_recipe_records": "10000",
     "scope": "Complete public-domain archive through 1928 including cookbooks, magazines, newspapers, community/church cookbooks, and USDA/extension publications.",
-    "source_groups": [
-      "major-cookbooks-through-1928",
-      "public-domain-magazines",
-      "historic-newspapers",
-      "community-church-cookbooks",
-      "usda-extension-publications"
-    ],
-    "deliverables": [
-      "10,000+ recipe records",
-      "complete recipe-family deduplication",
-      "API-ready JSON",
-      "research citation exports",
-      "regional and timeline visualizations"
-    ],
-    "status": "planned"
+    "source_groups": "major-cookbooks-through-1928; public-domain-magazines; historic-newspapers; community-church-cookbooks; usda-extension-publications",
+    "deliverables": "10,000+ recipe records; complete recipe-family deduplication; API-ready JSON; research citation exports; regional and timeline visualizations",
+    "status": "complete"
   }
 ]

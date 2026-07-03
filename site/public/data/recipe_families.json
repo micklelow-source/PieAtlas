@@ -118,5 +118,17 @@
     "family_name": "Game Pie",
     "aliases": "game; pigeon; venison; rabbit; partridge",
     "category": "savory"
+  },
+  {
+    "family_id": "fruit-pastry",
+    "family_name": "Fruit Pastry",
+    "aliases": "tart; tartlet; turnover; patty; patties",
+    "category": "pastry"
+  },
+  {
+    "family_id": "miscellaneous-pie",
+    "family_name": "Miscellaneous Pie",
+    "aliases": "pie; pies; pye; pyes; pastry; paste",
+    "category": "miscellaneous"
   }
 ]

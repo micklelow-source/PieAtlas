@@ -1,17 +1,28 @@
 # PieAtlas Roadmap
 
-## Rev1 — 500 recipes: all major cookbook pie recipes
+## Rev1 - 500 Recipes: Major Cookbook Foundation
+
+Status: complete.
 
 Focus: public-domain cookbooks published through 1928.
 
-## Rev2 — 2,000 recipes: cookbooks + magazines
+## Rev2 - 2,000 Recipes: Cookbooks + Magazines
 
-Adds public-domain magazine issues and household journals.
+Status: complete.
 
-## Rev3 — 5,000 recipes: add newspapers
+Adds public-domain magazine issues, household journals, regional food columns,
+and duplicate tracking against the Rev1 cookbook foundation.
 
-Adds reviewed public-domain newspaper recipes, especially from Chronicling America.
+## Rev3 - 5,000 Recipes: Add Newspapers
 
-## Rev4 — 10,000+ recipes: complete public-domain archive through 1928
+Status: complete.
 
-Adds church/community cookbooks, USDA and agricultural extension publications, more regional sources, and comprehensive deduplicated families.
+Adds reviewed public-domain newspaper recipes, especially from Chronicling
+America.
+
+## Rev4 - 10,000+ Recipes: Complete Public-Domain Archive
+
+Status: complete.
+
+Adds church/community cookbooks, USDA and agricultural extension publications,
+more regional sources, and comprehensive deduplicated families.

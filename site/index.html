@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PieAtlas</title>
+    <meta name="description" content="A public-domain catalog of historical pie recipes through 1928.">
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <header class="hero">
+      <img src="./public/assets/pieatlas-hero.png" alt="" class="hero__image">
+      <div class="hero__shade"></div>
+      <nav class="topbar" aria-label="Primary">
+        <a class="brand" href="#recipes">PieAtlas</a>
+        <div class="topbar__links">
+          <a href="#timeline">Timeline</a>
+          <a href="#rev2">Rev2</a>
+          <a href="#families">Families</a>
+          <a href="#sources">Sources</a>
+          <a href="./public/data/recipes.json">API</a>
+        </div>
+      </nav>
+      <section class="hero__content">
+        <p class="eyebrow">Public-domain pie recipes through 1928</p>
+        <h1>PieAtlas</h1>
+        <p class="lede">A searchable research archive for verified historical pie recipes, cookbook citations, recipe families, and reproducible harvest workflows.</p>
+        <form class="hero__search" role="search">
+          <label for="searchInput">Search recipes</label>
+          <div class="searchbox">
+            <input id="searchInput" type="search" autocomplete="off" placeholder="Search title, source, ingredient, tag, or note">
+            <button type="submit" aria-label="Run search">Search</button>
+          </div>
+        </form>
+      </section>
+    </header>
+
+    <main>
+      <section class="stats" aria-label="Archive statistics">
+        <div>
+          <span id="recipeCount">0</span>
+          <p>Recipes</p>
+        </div>
+        <div>
+          <span id="sourceCount">0</span>
+          <p>Sources</p>
+        </div>
+        <div>
+          <span id="familyCount">0</span>
+          <p>Families</p>
+        </div>
+        <div>
+          <span id="verifiedCount">0</span>
+          <p>Structured or verified</p>
+        </div>
+      </section>
+
+      <section class="workspace" id="recipes">
+        <aside class="filters" aria-label="Recipe filters">
+          <div class="filter-group">
+            <label for="familyFilter">Family</label>
+            <select id="familyFilter"></select>
+          </div>
+          <div class="filter-group">
+            <label for="ingredientInput">Ingredient</label>
+            <input id="ingredientInput" type="search" placeholder="pumpkin, lemon, molasses">
+          </div>
+          <div class="filter-group">
+            <label for="statusFilter">Verification</label>
+            <select id="statusFilter"></select>
+          </div>
+          <div class="filter-group">
+            <label for="sortSelect">Sort</label>
+            <select id="sortSelect">
+              <option value="year-asc">Oldest first</option>
+              <option value="year-desc">Newest first</option>
+              <option value="title-asc">Title A-Z</option>
+            </select>
+          </div>
+          <button id="clearFilters" class="secondary" type="button">Clear</button>
+        </aside>
+
+        <section class="results" aria-live="polite">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Searchable website</p>
+              <h2>Recipe Catalog</h2>
+            </div>
+            <p id="resultCount">0 recipes</p>
+          </div>
+          <div id="recipeList" class="recipe-list"></div>
+        </section>
+      </section>
+
+      <section id="timeline" class="band">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Timeline</p>
+            <h2>Publication Years</h2>
+          </div>
+        </div>
+        <div id="timelineChart" class="timeline-chart"></div>
+      </section>
+
+      <section id="rev2" class="band split">
+        <div>
+          <p class="eyebrow">Rev2</p>
+          <h2>Magazine Review Queue</h2>
+          <p>Rev2 is underway with public-domain magazine issue discovery and OCR recipe-context harvesting. Candidates stay separate from canonical recipes until citation, OCR quality, and duplicate status are reviewed.</p>
+        </div>
+        <div class="review-panel">
+          <div class="review-stats">
+            <div>
+              <span id="rev2IssueCount">0</span>
+              <p>Issue candidates</p>
+            </div>
+            <div>
+              <span id="rev2RecipeCandidateCount">0</span>
+              <p>Recipe contexts</p>
+            </div>
+          </div>
+          <div id="rev2CandidateList" class="candidate-list"></div>
+        </div>
+      </section>
+
+      <section id="families" class="band split">
+        <div>
+          <p class="eyebrow">Recipe families</p>
+          <h2>Variants Stay Visible</h2>
+          <p>PieAtlas groups related recipes without overwriting historical variants. Family pages expose aliases, categories, and counts for future deduplication review.</p>
+        </div>
+        <div id="familyList" class="family-list"></div>
+      </section>
+
+      <section id="sources" class="band">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Cookbook pages</p>
+            <h2>Sources and Citations</h2>
+          </div>
+        </div>
+        <div id="sourceList" class="source-list"></div>
+      </section>
+    </main>
+
+    <template id="recipeTemplate">
+      <article class="recipe-card">
+        <div class="recipe-card__header">
+          <div>
+            <p class="recipe-card__year"></p>
+            <h3></h3>
+          </div>
+          <a class="recipe-card__source" target="_blank" rel="noreferrer">Scan</a>
+        </div>
+        <dl class="metadata"></dl>
+        <p class="recipe-card__ingredients"></p>
+        <p class="recipe-card__notes"></p>
+      </article>
+    </template>
+
+    <script src="./app.js" type="module"></script>
+  </body>
+</html>

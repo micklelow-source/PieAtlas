@@ -13,11 +13,30 @@ jobs:
           python-version: '3.12'
       - name: Rev1 Gutenberg cookbook candidates
         run: python scripts/harvest/harvest_gutenberg.py data/manifests/rev1_cookbook_targets.csv > data/recipes/rev1_gutenberg_candidates.csv
+      - name: Rev2 Internet Archive magazine candidates
+        run: |
+          mkdir -p data/magazines
+          python scripts/harvest/harvest_internet_archive_issues.py 25 data/magazines/rev2_issue_candidates.csv
+          python scripts/harvest/harvest_internet_archive_recipes.py 10 data/magazines/rev2_recipe_candidates.csv 30
       - name: Rev3 Chronicling America candidates
         run: python scripts/harvest/harvest_chronicling_america.py data/manifests/rev3_newspaper_search_targets.csv 25 > data/recipes/rev3_newspaper_candidates.csv
+      - name: Promote Rev1 records
+        run: python scripts/normalize/promote_rev1_candidates.py
+      - name: Promote Rev2 records
+        run: python scripts/normalize/promote_rev2_candidates.py
+      - name: Promote Rev3 records
+        run: python scripts/normalize/promote_rev3_candidates.py
+      - name: Promote Rev4 records
+        run: python scripts/normalize/promote_rev4_candidates.py
+      - name: Export JSON data
+        run: python scripts/export/export_data.py
       - name: Validate current recipes
         run: python scripts/validate/validate_recipes.py
+      - name: Run unit tests
+        run: python -m unittest discover -s tests
       - uses: actions/upload-artifact@v4
         with:
           name: pieatlas-harvest-candidates
-          path: data/recipes/*candidates.csv
+          path: |
+            data/recipes/*candidates.csv
+            data/magazines/*candidates.csv

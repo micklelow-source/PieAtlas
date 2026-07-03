@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 import csv, re, sys, urllib.request
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", newline="")
+
 TERMS = re.compile(r'\b(pie|pies|pye|pyes|tart|tarts|pastry|paste|mince|mincemeat|crust)\b', re.I)
 
 def text_url(ebook_url):
