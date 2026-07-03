@@ -1,0 +1,23 @@
+name: Harvest PieAtlas Candidates
+
+on:
+  workflow_dispatch:
+
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Rev1 Gutenberg cookbook candidates
+        run: python scripts/harvest/harvest_gutenberg.py data/manifests/rev1_cookbook_targets.csv > data/recipes/rev1_gutenberg_candidates.csv
+      - name: Rev3 Chronicling America candidates
+        run: python scripts/harvest/harvest_chronicling_america.py data/manifests/rev3_newspaper_search_targets.csv 25 > data/recipes/rev3_newspaper_candidates.csv
+      - name: Validate current recipes
+        run: python scripts/validate/validate_recipes.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pieatlas-harvest-candidates
+          path: data/recipes/*candidates.csv

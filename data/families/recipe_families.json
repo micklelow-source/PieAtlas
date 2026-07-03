@@ -1,0 +1,122 @@
+[
+  {
+    "family_id": "apple-pie",
+    "family_name": "Apple Pie",
+    "aliases": "apple; green apple; dried apple; pippin; mock apple",
+    "category": "fruit"
+  },
+  {
+    "family_id": "pumpkin-pie",
+    "family_name": "Pumpkin Pie",
+    "aliases": "pumpkin; pompkin; pumpkin pudding",
+    "category": "custard"
+  },
+  {
+    "family_id": "mince-pie",
+    "family_name": "Mince Pie",
+    "aliases": "mince; mincemeat; minced pie",
+    "category": "mince"
+  },
+  {
+    "family_id": "lemon-pie",
+    "family_name": "Lemon Pie",
+    "aliases": "lemon custard; lemon cream; lemon filling",
+    "category": "citrus"
+  },
+  {
+    "family_id": "lemon-meringue-pie",
+    "family_name": "Lemon Meringue Pie",
+    "aliases": "lemon meringue; lemon pie with meringue",
+    "category": "citrus"
+  },
+  {
+    "family_id": "custard-pie",
+    "family_name": "Custard Pie",
+    "aliases": "egg custard; baked custard",
+    "category": "custard"
+  },
+  {
+    "family_id": "cream-pie",
+    "family_name": "Cream Pie",
+    "aliases": "cream; banana cream; coconut cream; chocolate cream",
+    "category": "cream"
+  },
+  {
+    "family_id": "berry-pie",
+    "family_name": "Berry Pie",
+    "aliases": "berry; blackberry; blueberry; huckleberry; raspberry",
+    "category": "fruit"
+  },
+  {
+    "family_id": "cranberry-pie",
+    "family_name": "Cranberry Pie",
+    "aliases": "cranberry tart; cranberry pie",
+    "category": "fruit"
+  },
+  {
+    "family_id": "cherry-pie",
+    "family_name": "Cherry Pie",
+    "aliases": "sour cherry; red cherry; cherry tart",
+    "category": "fruit"
+  },
+  {
+    "family_id": "peach-pie",
+    "family_name": "Peach Pie",
+    "aliases": "peach; dried peach; peach pot pie",
+    "category": "fruit"
+  },
+  {
+    "family_id": "rhubarb-pie",
+    "family_name": "Rhubarb Pie",
+    "aliases": "rhubarb; pie plant; pieplant",
+    "category": "fruit"
+  },
+  {
+    "family_id": "raisin-pie",
+    "family_name": "Raisin Pie",
+    "aliases": "raisin; funeral pie; dried grape",
+    "category": "fruit"
+  },
+  {
+    "family_id": "vinegar-pie",
+    "family_name": "Vinegar Pie",
+    "aliases": "vinegar; mock lemon; desperation pie",
+    "category": "custard"
+  },
+  {
+    "family_id": "chess-pie",
+    "family_name": "Chess Pie",
+    "aliases": "chess; transparent; sugar pie; cheese pie",
+    "category": "custard"
+  },
+  {
+    "family_id": "shoofly-pie",
+    "family_name": "Shoofly Pie",
+    "aliases": "shoofly; shoo fly; molasses crumb",
+    "category": "regional"
+  },
+  {
+    "family_id": "sweet-potato-pie",
+    "family_name": "Sweet Potato Pie",
+    "aliases": "sweet potato; yam",
+    "category": "custard"
+  },
+  {
+    "family_id": "squash-pie",
+    "family_name": "Squash Pie",
+    "aliases": "squash; marrow squash",
+    "category": "custard"
+  },
+  {
+    "family_id": "meat-pie",
+    "family_name": "Meat Pie",
+    "aliases": "beef; chicken; veal; oyster; tongue; pigeon; venison",
+    "category": "savory"
+  },
+  {
+    "family_id": "game-pie",
+    "family_name": "Game Pie",
+    "aliases": "game; pigeon; venison; rabbit; partridge",
+    "category": "savory"
+  }
+]

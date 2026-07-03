@@ -1,0 +1,173 @@
+[
+  {
+    "source_id": "american-cookery-1796",
+    "title": "American Cookery",
+    "author": "Amelia Simmons",
+    "year": 1796,
+    "repository": "Project Gutenberg",
+    "source_url": "https://www.gutenberg.org/ebooks/12815",
+    "status": "rev1_seeded"
+  },
+  {
+    "source_id": "cooks-oracle-1822",
+    "title": "The Cook's Oracle",
+    "author": "William Kitchiner",
+    "year": 1822,
+    "repository": "Project Gutenberg",
+    "source_url": "https://www.gutenberg.org/ebooks/28681",
+    "status": "rev1_target"
+  },
+  {
+    "source_id": "cook-and-housewife-manual-1826",
+    "title": "The Cook and Housewife's Manual",
+    "author": "Meg Dods / Christian Isobel Johnstone",
+    "year": 1826,
+    "repository": "Project Gutenberg",
+    "source_url": "https://www.gutenberg.org/ebooks/31534",
+    "status": "rev1_target"
+  },
+  {
+    "source_id": "kentucky-housewife-1839",
+    "title": "The Kentucky Housewife",
+    "author": "Lettice Bryan",
+    "year": 1839,
+    "repository": "HathiTrust",
+    "source_url": "https://babel.hathitrust.org/cgi/pt?id=umn.31951d02396340i",
+    "status": "rev1_target"
+  },
+  {
+    "source_id": "plain-cookery-working-classes-1852",
+    "title": "A Plain Cookery Book for the Working Classes",
+    "author": "Charles Elm\u00e9 Francatelli",
+    "year": 1852,
+    "repository": "Project Gutenberg",
+    "source_url": "https://www.gutenberg.org/ebooks/22114",
+    "status": "rev1_target"
+  },
+  {
+    "source_id": "beeton-household-management-1861",
+    "title": "The Book of Household Management",
+    "author": "Isabella Beeton",
+    "year": 1861,
+    "repository": "Project Gutenberg",
+    "source_url": "https://www.gutenberg.org/ebooks/10136",
+    "status": "rev1_seeded"
+  },
+  {
+    "source_id": "poetical-cook-book-1864",
+    "title": "A Poetical Cook-Book",
+    "author": "Maria J. Moss",
+    "year": 1864,
+    "repository": "Project Gutenberg",
+    "source_url": "https://www.gutenberg.org/ebooks/25631",
+    "status": "rev1_target"
+  },
+  {
+    "source_id": "white-house-cook-book-1887",
+    "title": "The White House Cook Book",
+    "author": "Fanny L. Gillette and Hugo Ziemann",
+    "year": 1887,
+    "repository": "Project Gutenberg",
+    "source_url": "https://www.gutenberg.org/ebooks/13923",
+    "status": "rev1_seeded"
+  },
+  {
+    "source_id": "choice-cookery-1889",
+    "title": "Choice Cookery",
+    "author": "Catherine Owen",
+    "year": 1889,
+    "repository": "Project Gutenberg",
+    "source_url": "https://www.gutenberg.org/ebooks/26311",
+    "status": "rev1_target"
+  },
+  {
+    "source_id": "cookery-blue-book-1891",
+    "title": "The Cookery Blue Book",
+    "author": "First Unitarian Society of San Francisco",
+    "year": 1891,
+    "repository": "Project Gutenberg",
+    "source_url": "https://www.gutenberg.org/ebooks/26359",
+    "status": "rev1_target"
+  },
+  {
+    "source_id": "science-in-the-kitchen-1893",
+    "title": "Science in the Kitchen",
+    "author": "Ella Eaton Kellogg",
+    "year": 1893,
+    "repository": "Project Gutenberg",
+    "source_url": "https://www.gutenberg.org/ebooks/12238",
+    "status": "rev1_target"
+  },
+  {
+    "source_id": "century-cook-book-1895",
+    "title": "The Century Cook Book",
+    "author": "Mary Ronald",
+    "year": 1895,
+    "repository": "Project Gutenberg",
+    "source_url": "https://www.gutenberg.org/ebooks/55790",
+    "status": "rev1_target"
+  },
+  {
+    "source_id": "golden-age-cook-book-1898",
+    "title": "The Golden Age Cook Book",
+    "author": "Henrietta Latham Dwight",
+    "year": 1898,
+    "repository": "Project Gutenberg",
+    "source_url": "https://www.gutenberg.org/ebooks/34509",
+    "status": "rev1_target"
+  },
+  {
+    "source_id": "settlement-cook-book-1903",
+    "title": "The Settlement Cook Book",
+    "author": "Lizzie Black Kander",
+    "year": 1903,
+    "repository": "Internet Archive",
+    "source_url": "https://archive.org/details/settlementcookbo00kand",
+    "status": "rev1_target"
+  },
+  {
+    "source_id": "suffrage-cook-book-1915",
+    "title": "The Suffrage Cook Book",
+    "author": "L. O. Kleber",
+    "year": 1915,
+    "repository": "Project Gutenberg",
+    "source_url": "https://www.gutenberg.org/ebooks/26323",
+    "status": "rev1_target"
+  },
+  {
+    "source_id": "mrs-wilsons-cook-book-1920",
+    "title": "Mrs. Wilson's Cook Book",
+    "author": "Mary A. Wilson",
+    "year": 1920,
+    "repository": "Project Gutenberg",
+    "source_url": "https://www.gutenberg.org/ebooks/52014",
+    "status": "rev1_target"
+  },
+  {
+    "source_id": "woman-institute-v5-1928",
+    "title": "Woman's Institute Library of Cookery, Vol. 5",
+    "author": "Woman's Institute of Domestic Arts and Sciences",
+    "year": 1928,
+    "repository": "Project Gutenberg",
+    "source_url": "https://www.gutenberg.org/ebooks/9939",
+    "status": "rev1_target"
+  },
+  {
+    "source_id": "cook-book-tested-recipes-1914",
+    "title": "Cook Book of Tested Recipes",
+    "author": "Ida Lee Cary",
+    "year": 1914,
+    "repository": "Project Gutenberg",
+    "source_url": "https://www.gutenberg.org/ebooks/68983",
+    "status": "rev1_target"
+  },
+  {
+    "source_id": "progress-meatless-cook-book-1920",
+    "title": "The Progress Meatless Cook Book",
+    "author": "Carin Greenberg Baker",
+    "year": 1920,
+    "repository": "Project Gutenberg",
+    "source_url": "https://www.gutenberg.org/ebooks/77733",
+    "status": "rev1_target"
+  }
+]

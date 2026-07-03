@@ -1,0 +1,6 @@
+group_id,name,starting_revision,resources,harvest_method
+major-cookbooks-through-1928,Major public-domain cookbooks through 1928,rev1,Project Gutenberg; HathiTrust; Internet Archive,"Download OCR/plain text, extract pie headings and sections, review, promote to recipes.csv"
+public-domain-magazines,Public-domain magazines,rev2,Internet Archive; HathiTrust; Project Gutenberg,Search issues for pie recipe terms and food columns; review issue metadata
+historic-newspapers,Historic public-domain newspapers,rev3,Library of Congress Chronicling America; state newspaper archives,"Search OCR by terms, save page URLs, review snippets and images"
+community-church-cookbooks,Church and community cookbooks,rev4,HathiTrust community/charity collections; Internet Archive,"Build collection manifest, extract pie/tart/pastry sections"
+usda-extension-publications,USDA and extension publications,rev4,USDA bulletins; Archive.org; HathiTrust,"Search government publications for pie, pastry, fruit dessert terms"

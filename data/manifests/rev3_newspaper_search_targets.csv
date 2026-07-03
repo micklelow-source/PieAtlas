@@ -1,0 +1,12 @@
+archive_id,archive_name,revision,query,date_start,date_end,example_api_url
+chronicling-america,Library of Congress Chronicling America,rev3,apple pie recipe,1777,1928,https://chroniclingamerica.loc.gov/search/pages/results/?andtext=apple%20pie%20recipe&date1=1777&date2=1928&format=json
+chronicling-america,Library of Congress Chronicling America,rev3,pumpkin pie recipe,1777,1928,https://chroniclingamerica.loc.gov/search/pages/results/?andtext=pumpkin%20pie%20recipe&date1=1777&date2=1928&format=json
+chronicling-america,Library of Congress Chronicling America,rev3,mince pie recipe,1777,1928,https://chroniclingamerica.loc.gov/search/pages/results/?andtext=mince%20pie%20recipe&date1=1777&date2=1928&format=json
+chronicling-america,Library of Congress Chronicling America,rev3,lemon meringue pie,1777,1928,https://chroniclingamerica.loc.gov/search/pages/results/?andtext=lemon%20meringue%20pie&date1=1777&date2=1928&format=json
+chronicling-america,Library of Congress Chronicling America,rev3,custard pie recipe,1777,1928,https://chroniclingamerica.loc.gov/search/pages/results/?andtext=custard%20pie%20recipe&date1=1777&date2=1928&format=json
+chronicling-america,Library of Congress Chronicling America,rev3,berry pie recipe,1777,1928,https://chroniclingamerica.loc.gov/search/pages/results/?andtext=berry%20pie%20recipe&date1=1777&date2=1928&format=json
+chronicling-america,Library of Congress Chronicling America,rev3,rhubarb pie,1777,1928,https://chroniclingamerica.loc.gov/search/pages/results/?andtext=rhubarb%20pie&date1=1777&date2=1928&format=json
+chronicling-america,Library of Congress Chronicling America,rev3,chess pie,1777,1928,https://chroniclingamerica.loc.gov/search/pages/results/?andtext=chess%20pie&date1=1777&date2=1928&format=json
+chronicling-america,Library of Congress Chronicling America,rev3,shoofly pie,1777,1928,https://chroniclingamerica.loc.gov/search/pages/results/?andtext=shoofly%20pie&date1=1777&date2=1928&format=json
+chronicling-america,Library of Congress Chronicling America,rev3,sweet potato pie,1777,1928,https://chroniclingamerica.loc.gov/search/pages/results/?andtext=sweet%20potato%20pie&date1=1777&date2=1928&format=json
+chronicling-america,Library of Congress Chronicling America,rev3,meat pie,1777,1928,https://chroniclingamerica.loc.gov/search/pages/results/?andtext=meat%20pie&date1=1777&date2=1928&format=json
