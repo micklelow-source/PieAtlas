@@ -59,6 +59,19 @@ QUANTITY_INGREDIENT = re.compile(
     rf"(?:\s+of)?(?:\s+[a-z][a-z'/-]*){{0,8}}",
     re.IGNORECASE,
 )
+ACTION_WORDS = (
+    r"add|bake|beat|boil|chop|cover|cut|fill|lay|line|make|mix|pare|place|"
+    r"press|proceeding|put|replace|roll|season|sift|sprinkle|stew|stir|strain|sweeten|turn|wet"
+)
+HISTORICAL_LEAD_IN = re.compile(
+    rf"\b(?:take|use|allow)\s+(?P<items>.{{12,420}}?)(?=\b(?:{ACTION_WORDS})\b|[.!?])",
+    re.IGNORECASE,
+)
+FLOUR_ALLOWANCE = re.compile(
+    rf"\bto\s+every\s+(?P<base>.{{6,90}}?)\s+allow\s+(?P<items>.{{8,420}}?)(?=\b(?:{ACTION_WORDS})\b|[.!?])",
+    re.IGNORECASE,
+)
+OPENING_BLOCK_END = re.compile(rf"\b(?:{ACTION_WORDS})\b", re.IGNORECASE)
 INGREDIENT_WORDS = [
     "apples",
     "apple",
@@ -191,12 +204,82 @@ def split_named_ingredients(row: dict[str, str], text: str) -> tuple[str, str] |
     return "; ".join(found), normalize_recipe_text(text)
 
 
+def split_historical_leadin_ingredients(row: dict[str, str], text: str) -> tuple[str, str] | None:
+    body = focused_recipe_body(row, text)
+    for pattern in (FLOUR_ALLOWANCE, HISTORICAL_LEAD_IN):
+        match = pattern.search(body)
+        if not match:
+            continue
+        items = historical_items_from_match(match)
+        if is_plausible_historical_items(items, minimum_hits=2, require_list_punctuation=False):
+            return items, normalize_recipe_text(text)
+    return None
+
+
+def split_opening_block_ingredients(row: dict[str, str], text: str) -> tuple[str, str] | None:
+    body = focused_recipe_body(row, text)
+    match = OPENING_BLOCK_END.search(body, 24)
+    if not match:
+        return None
+    candidate = clean(body[: match.start()])
+    if not is_plausible_historical_items(candidate, minimum_hits=3, require_list_punctuation=True):
+        return None
+    return candidate, normalize_recipe_text(text)
+
+
+def historical_items_from_match(match: re.Match[str]) -> str:
+    if "base" in match.groupdict():
+        value = f"{match.group('base')}; {match.group('items')}"
+    else:
+        value = match.group("items")
+    return clean_historical_items(value)
+
+
+def clean_historical_items(value: str) -> str:
+    value = clean(value)
+    value = re.sub(r"\b(?:then|when|until|proceeding as above)\b.*$", "", value, flags=re.IGNORECASE)
+    value = re.sub(r"\s+(?:in|into|on|over|through|to)\s+(?:a|an|the)\b.*$", "", value, flags=re.IGNORECASE)
+    items = unique_items(
+        item for item in re.split(r";|,\s+and\s+|\s+and\s+(?=(?:one|two|three|four|five|six|half|a|an|\d))", value)
+    )
+    if len(items) >= 2:
+        return "; ".join(items)
+    return value
+
+
+def is_plausible_historical_items(value: str, minimum_hits: int, require_list_punctuation: bool) -> bool:
+    if len(value) < 10 or len(value) > 500:
+        return False
+    if re.search(
+        r"[?\"\u201c\u201d]|\b(?:advertisement|better for cleaning|directed that|doubting|fortune|people|read of|success|suppose)\b",
+        value,
+        re.IGNORECASE,
+    ):
+        return False
+    if re.match(r"^(?:and\b|then\b|_+|-+|\(?no\.|\(?\d+\.|make|roll|spread|transfer)\b", value, re.IGNORECASE):
+        return False
+    if re.search(r"\b(?:brush|cut|pare|press|replace|sprinkle|turn|wet)\b", value, re.IGNORECASE):
+        return False
+    lower = value.lower()
+    ingredient_hits = sum(1 for ingredient in INGREDIENT_WORDS if re.search(rf"\b{re.escape(ingredient)}\b", lower))
+    quantity_hits = len(QUANTITY_INGREDIENT.findall(value))
+    if quantity_hits + ingredient_hits < minimum_hits:
+        return False
+    if require_list_punctuation and quantity_hits < 2 and not re.search(r"[,;]", value):
+        return False
+    if re.search(r"\b(?:average cost|seasonable|sufficient|serve|minutes?|hours?|oven)\b", lower):
+        return False
+    return True
+
+
 def extract_cookbook_recipe(row: dict[str, str]) -> tuple[str, str] | None:
     """Extract from cookbook rows, preferring formal INGREDIENTS / Mode blocks."""
     source_text = recipe_text(row)
     return (
         split_marked_ingredients(source_text)
         or split_quantity_ingredients(row, source_text)
+        or split_historical_leadin_ingredients(row, source_text)
+        or split_opening_block_ingredients(row, source_text)
         or split_named_ingredients(row, source_text)
     )
 
@@ -225,6 +308,8 @@ def extract_collection_source_manifest_record(row: dict[str, str]) -> tuple[str,
     return (
         split_marked_ingredients(source_text)
         or split_quantity_ingredients(row, source_text)
+        or split_historical_leadin_ingredients(row, source_text)
+        or split_opening_block_ingredients(row, source_text)
         or split_named_ingredients(row, source_text)
     )
 
@@ -306,12 +391,18 @@ def is_plausible_ingredient_list(value: str) -> bool:
     return any(measure in lower for measure in measures)
 
 
-def extract_row(row: dict[str, str]) -> bool:
-    if clean(row.get("ingredients_original", "")):
+def extract_row(row: dict[str, str], refresh: bool = False) -> bool:
+    original_ingredients = row.get("ingredients_original", "")
+    original_directions = row.get("directions_original", "")
+    if clean(original_ingredients) and not refresh:
         return False
 
     extracted = extract_by_source_type(row)
     if not extracted:
+        if refresh:
+            row["ingredients_original"] = ""
+            row["directions_original"] = normalize_recipe_text(recipe_text(row))
+            return row.get("ingredients_original", "") != original_ingredients or row.get("directions_original", "") != original_directions
         return False
 
     ingredients, directions = extracted
@@ -322,6 +413,7 @@ def extract_row(row: dict[str, str]) -> bool:
 
 
 def main() -> None:
+    refresh = "--refresh" in sys.argv[1:]
     with RECIPES_CSV.open(newline="", encoding="utf-8-sig") as handle:
         reader = csv.DictReader(handle)
         rows = list(reader)
@@ -330,7 +422,7 @@ def main() -> None:
     if not fieldnames:
         raise SystemExit("recipes.csv has no header")
 
-    updated = sum(1 for row in rows if extract_row(row))
+    updated = sum(1 for row in rows if extract_row(row, refresh=refresh))
     if not updated:
         print("No ingredient lists found to extract")
         return
