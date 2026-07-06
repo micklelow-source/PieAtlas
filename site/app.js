@@ -76,6 +76,34 @@ function verificationRank(recipe) {
   return 4;
 }
 
+function sourceTypeLabel(sourceType) {
+  const labels = {
+    cookbook: "Books",
+    magazine: "Magazines",
+    newspaper: "Newspapers",
+    collection: "Collections / archives",
+  };
+  if (labels[sourceType]) {
+    return labels[sourceType];
+  }
+  return String(sourceType || "Other sources")
+    .replaceAll("_", " ")
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function statusFilterLabel(status) {
+  const sourceTypes = Array.from(new Set(
+    state.recipes
+      .filter((recipe) => recipe.verification_status === status)
+      .map((recipe) => recipe.source_type)
+      .filter(Boolean)
+  ));
+  if (sourceTypes.length) {
+    return sourceTypes.map(sourceTypeLabel).join(" / ");
+  }
+  return status.replaceAll("_", " ");
+}
+
 function searchableText(recipe) {
   return [
     recipe.title,
@@ -133,10 +161,11 @@ function renderFilters() {
     ...state.families.map((family) => [family.family_id, family.family_name]),
   ].map(([value, label]) => `<option value="${value}">${label}</option>`).join("");
 
-  const statuses = Array.from(new Set(state.recipes.map((recipe) => recipe.verification_status))).sort();
+  const statuses = Array.from(new Set(state.recipes.map((recipe) => recipe.verification_status)))
+    .sort((a, b) => verificationRank({ verification_status: a }) - verificationRank({ verification_status: b }));
   elements.statusFilter.innerHTML = [
-    ["all", "All statuses"],
-    ...statuses.map((status) => [status, status.replaceAll("_", " ")]),
+    ["all", "All source types"],
+    ...statuses.map((status) => [status, statusFilterLabel(status)]),
   ].map(([value, label]) => `<option value="${value}">${label}</option>`).join("");
 }
 
