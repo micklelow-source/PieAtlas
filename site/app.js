@@ -221,6 +221,28 @@ function recipeCopyFor(recipe) {
     || "Recipe transcription is queued for enrichment.";
 }
 
+function ingredientsFor(recipe) {
+  return recipe.ingredients_original
+    || recipe.ingredients_modernized
+    || "Ingredients are preserved in the original recipe text below.";
+}
+
+function applySourceLink(link, recipe) {
+  const url = String(recipe.source_url || "").trim();
+  link.textContent = "Original Source";
+  link.title = `Open original source for ${recipe.title}`;
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    link.href = url;
+    link.classList.remove("recipe-card__source--disabled");
+    link.removeAttribute("aria-disabled");
+    return;
+  }
+  link.removeAttribute("href");
+  link.classList.add("recipe-card__source--disabled");
+  link.setAttribute("aria-disabled", "true");
+  link.title = "Original source link is not available for this record.";
+}
+
 function renderRecipes() {
   const recipes = visibleRecipesForSelectedFamily();
   elements.recipeList.innerHTML = "";
@@ -246,7 +268,7 @@ function renderRecipes() {
     node.querySelector("h3").textContent = recipe.title;
     node.querySelector(".recipe-card__year").textContent = recipe.year;
     const sourceLink = node.querySelector(".recipe-card__source");
-    sourceLink.href = recipe.source_url;
+    applySourceLink(sourceLink, recipe);
     const metadata = node.querySelector(".metadata");
     metadata.append(
       metadataItem("Family", familyName(recipe.family_id)),
@@ -254,9 +276,7 @@ function renderRecipes() {
       metadataItem("Author", recipe.author),
       metadataItem("Status", recipe.verification_status.replaceAll("_", " "))
     );
-    node.querySelector(".recipe-card__ingredients").textContent = recipe.ingredients_original
-      ? `Ingredients: ${recipe.ingredients_original}`
-      : "Ingredients awaiting transcription.";
+    node.querySelector(".recipe-card__ingredients p").textContent = ingredientsFor(recipe);
     node.querySelector(".recipe-card__copy p").textContent = recipeCopyFor(recipe);
     node.querySelector(".recipe-card__notes").textContent = recipe.notes;
     elements.recipeList.append(node);

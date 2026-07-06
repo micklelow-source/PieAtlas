@@ -406,6 +406,12 @@ main {
   font-weight: 800;
 }
 
+.recipe-card__source--disabled {
+  color: var(--muted);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
 .metadata {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -429,6 +435,7 @@ main {
   overflow-wrap: anywhere;
 }
 
+.recipe-card__ingredients,
 .recipe-card__copy {
   margin-top: 16px;
   padding: 16px;
@@ -436,6 +443,15 @@ main {
   background: #fffaf1;
 }
 
+.recipe-card__ingredients {
+  border-left: 4px solid var(--brass);
+}
+
+.recipe-card__copy {
+  border-left: 4px solid var(--green);
+}
+
+.recipe-card__ingredients h4,
 .recipe-card__copy h4 {
   margin: 0 0 8px;
   color: var(--green);
@@ -443,6 +459,11 @@ main {
   text-transform: uppercase;
 }
 
+.recipe-card__ingredients h4 {
+  color: var(--brass);
+}
+
+.recipe-card__ingredients p,
 .recipe-card__copy p {
   margin: 0;
   color: var(--ink);
@@ -450,7 +471,6 @@ main {
   white-space: pre-wrap;
 }
 
-.recipe-card__ingredients,
 .recipe-card__notes {
   margin: 10px 0 0;
   color: var(--muted);
