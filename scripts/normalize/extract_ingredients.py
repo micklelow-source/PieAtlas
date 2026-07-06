@@ -24,6 +24,14 @@ STOP_MARKER = re.compile(
     r"\s+(?:_?TIME_?|AVERAGE\s+COST|SUFFICIENT|SEASONABLE|NOTE|NOTES)\b\s*(?:[.:;-]+|--|\u2014)\s*",
     re.IGNORECASE,
 )
+PLACEHOLDER_TEXT = re.compile(
+    r"\b(?:"
+    r"newspaper index record|page-level ocr review remains queued|"
+    r"source manifest record|source-manifest|generated from rev4|"
+    r"candidate review queue|ocr enrichment is tracked"
+    r")\b",
+    re.IGNORECASE,
+)
 NEXT_RECIPE_MARKER = re.compile(
     r"\s(?:_[A-Z][^_]{3,80}_|[A-Z][A-Z0-9 ,;:'&().-]{5,80}\.)"
 )
@@ -183,6 +191,74 @@ def split_named_ingredients(row: dict[str, str], text: str) -> tuple[str, str] |
     return "; ".join(found), normalize_recipe_text(text)
 
 
+def extract_cookbook_recipe(row: dict[str, str]) -> tuple[str, str] | None:
+    """Extract from cookbook rows, preferring formal INGREDIENTS / Mode blocks."""
+    source_text = recipe_text(row)
+    return (
+        split_marked_ingredients(source_text)
+        or split_quantity_ingredients(row, source_text)
+        or split_named_ingredients(row, source_text)
+    )
+
+
+def extract_magazine_paragraph_recipe(row: dict[str, str]) -> tuple[str, str] | None:
+    """Extract from magazine prose where ingredients are often embedded in paragraphs."""
+    source_text = recipe_text(row)
+    if is_placeholder_record(row, source_text):
+        return None
+    return split_quantity_ingredients(row, source_text) or split_named_ingredients(row, source_text)
+
+
+def extract_newspaper_index_record(row: dict[str, str]) -> tuple[str, str] | None:
+    """Skip newspaper index placeholders unless a row later gains real recipe text."""
+    source_text = recipe_text(row)
+    if is_placeholder_record(row, source_text):
+        return None
+    return split_quantity_ingredients(row, source_text) or split_named_ingredients(row, source_text)
+
+
+def extract_collection_source_manifest_record(row: dict[str, str]) -> tuple[str, str] | None:
+    """Skip source-manifest placeholders unless a collection row has recipe prose."""
+    source_text = recipe_text(row)
+    if is_placeholder_record(row, source_text):
+        return None
+    return (
+        split_marked_ingredients(source_text)
+        or split_quantity_ingredients(row, source_text)
+        or split_named_ingredients(row, source_text)
+    )
+
+
+def extract_by_source_type(row: dict[str, str]) -> tuple[str, str] | None:
+    extractors = {
+        "cookbook": extract_cookbook_recipe,
+        "magazine": extract_magazine_paragraph_recipe,
+        "newspaper": extract_newspaper_index_record,
+        "collection": extract_collection_source_manifest_record,
+    }
+    extractor = extractors.get(row.get("source_type", ""))
+    if extractor:
+        return extractor(row)
+    return extract_magazine_paragraph_recipe(row)
+
+
+def recipe_text(row: dict[str, str]) -> str:
+    return row.get("original_text", "") or row.get("directions_original", "")
+
+
+def is_placeholder_record(row: dict[str, str], text: str) -> bool:
+    searchable = " ".join(
+        [
+            row.get("title", ""),
+            row.get("source_title", ""),
+            row.get("verification_status", ""),
+            row.get("notes", ""),
+            text,
+        ]
+    )
+    return bool(PLACEHOLDER_TEXT.search(searchable))
+
+
 def clean_quantity_match(value: str) -> str:
     value = clean(value)
     value = re.split(
@@ -234,12 +310,7 @@ def extract_row(row: dict[str, str]) -> bool:
     if clean(row.get("ingredients_original", "")):
         return False
 
-    source_text = row.get("original_text", "") or row.get("directions_original", "")
-    extracted = (
-        split_marked_ingredients(source_text)
-        or split_quantity_ingredients(row, source_text)
-        or split_named_ingredients(row, source_text)
-    )
+    extracted = extract_by_source_type(row)
     if not extracted:
         return False
 
