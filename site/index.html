@@ -155,18 +155,40 @@
           <a class="recipe-card__source" target="_blank" rel="noopener noreferrer">Original Source</a>
         </div>
         <dl class="metadata"></dl>
-        <section class="recipe-card__ingredients">
-          <h4>Ingredients</h4>
-          <ul></ul>
-          <p></p>
-        </section>
-        <section class="recipe-card__copy">
-          <h4>Recipe Text</h4>
-          <p></p>
-        </section>
+        <div class="recipe-card__evidence">
+          <figure class="recipe-card__scan" hidden>
+            <button class="recipe-card__scan-button" type="button">
+              <img alt="">
+              <span>Enlarge source scan</span>
+            </button>
+            <figcaption></figcaption>
+          </figure>
+          <div>
+            <section class="recipe-card__ingredients">
+              <h4>Ingredients</h4>
+              <ul></ul>
+              <p></p>
+            </section>
+            <section class="recipe-card__copy">
+              <h4>Recipe Text</h4>
+              <p></p>
+            </section>
+          </div>
+        </div>
         <p class="recipe-card__notes"></p>
       </article>
     </template>
+
+    <dialog id="scanDialog" class="scan-dialog">
+      <button class="scan-dialog__close" type="button" aria-label="Close source scan">Close</button>
+      <div>
+        <p class="scan-dialog__label">Original source scan</p>
+        <h3></h3>
+        <a target="_blank" rel="noopener noreferrer">Open original source</a>
+      </div>
+      <img alt="">
+      <p></p>
+    </dialog>
 
     <script src="./app.js" type="module"></script>
   </body>

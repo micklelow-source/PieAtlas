@@ -435,6 +435,51 @@ main {
   overflow-wrap: anywhere;
 }
 
+.recipe-card__evidence {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.28fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.recipe-card__scan {
+  margin: 16px 0 0;
+}
+
+.recipe-card__scan-button {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+  padding: 0;
+  border: 1px solid var(--line);
+  background: #fffaf1;
+  color: var(--ink);
+  cursor: zoom-in;
+  text-align: left;
+}
+
+.recipe-card__scan-button img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  background: #eadfcb;
+}
+
+.recipe-card__scan-button span,
+.recipe-card__scan figcaption {
+  padding: 0 10px 10px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.recipe-card__scan figcaption {
+  padding: 8px 0 0;
+  line-height: 1.35;
+}
+
 .recipe-card__ingredients,
 .recipe-card__copy {
   margin-top: 16px;
@@ -485,6 +530,50 @@ main {
   margin: 10px 0 0;
   color: var(--muted);
   line-height: 1.55;
+}
+
+.scan-dialog {
+  width: min(920px, calc(100vw - 28px));
+  max-height: min(900px, calc(100vh - 28px));
+  padding: 18px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--ink);
+}
+
+.scan-dialog::backdrop {
+  background: rgb(23 20 17 / 68%);
+}
+
+.scan-dialog__close {
+  float: right;
+  margin-left: 12px;
+}
+
+.scan-dialog__label {
+  margin: 0 0 4px;
+  color: var(--cranberry);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.scan-dialog h3 {
+  margin: 0 0 8px;
+}
+
+.scan-dialog img {
+  display: block;
+  width: 100%;
+  max-height: 68vh;
+  margin-top: 16px;
+  object-fit: contain;
+  background: #eadfcb;
+}
+
+.scan-dialog > p:last-child {
+  margin: 10px 0 0;
+  color: var(--muted);
 }
 
 .band {
@@ -571,8 +660,13 @@ main {
 
   .stats,
   .workspace,
+  .recipe-card__evidence,
   .split {
     grid-template-columns: 1fr;
+  }
+
+  .recipe-card__scan-button img {
+    max-height: 280px;
   }
 
   .filters {

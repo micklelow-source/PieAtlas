@@ -29,6 +29,7 @@ const elements = {
   rev2IssueCount: document.querySelector("#rev2IssueCount"),
   rev2RecipeCandidateCount: document.querySelector("#rev2RecipeCandidateCount"),
   rev2CandidateList: document.querySelector("#rev2CandidateList"),
+  scanDialog: document.querySelector("#scanDialog"),
 };
 
 async function loadJson(path) {
@@ -303,6 +304,85 @@ function applySourceLink(link, recipe) {
   link.title = "Original source link is not available for this record.";
 }
 
+function sourceScanFor(recipe) {
+  const url = String(recipe.source_url || "").trim();
+  if (!url.startsWith("http://") && !url.startsWith("https://")) {
+    return null;
+  }
+  try {
+    const parsed = new URL(url);
+    if (parsed.hostname.includes("archive.org")) {
+      const parts = parsed.pathname.split("/").filter(Boolean);
+      const itemIndex = parts.findIndex((part) => part === "details" || part === "download");
+      const identifier = itemIndex >= 0 ? parts[itemIndex + 1] : "";
+      if (identifier) {
+        return {
+          thumbUrl: `https://archive.org/services/img/${identifier}`,
+          fullUrl: `https://archive.org/services/img/${identifier}`,
+          caption: "Archive.org source scan thumbnail",
+          sourceUrl: url,
+        };
+      }
+    }
+    if (parsed.hostname.includes("gutenberg.org")) {
+      const ebookId = parsed.pathname.match(/ebooks\/(\d+)/)?.[1]
+        || parsed.pathname.match(/\/(\d+)(?:\/|$)/)?.[1];
+      if (ebookId) {
+        return {
+          thumbUrl: `https://www.gutenberg.org/cache/epub/${ebookId}/pg${ebookId}.cover.medium.jpg`,
+          fullUrl: `https://www.gutenberg.org/cache/epub/${ebookId}/pg${ebookId}.cover.medium.jpg`,
+          caption: "Project Gutenberg source cover",
+          sourceUrl: url,
+        };
+      }
+    }
+  } catch {
+    return null;
+  }
+  return null;
+}
+
+function renderSourceScan(figure, recipe) {
+  const scan = sourceScanFor(recipe);
+  if (!scan) {
+    figure.hidden = true;
+    return;
+  }
+  const button = figure.querySelector("button");
+  const image = figure.querySelector("img");
+  image.src = scan.thumbUrl;
+  image.alt = `Source scan thumbnail for ${recipe.source_title || recipe.title}`;
+  image.loading = "lazy";
+  image.addEventListener("error", () => {
+    figure.hidden = true;
+  }, { once: true });
+  figure.querySelector("figcaption").textContent = scan.caption;
+  button.dataset.fullUrl = scan.fullUrl;
+  button.dataset.sourceUrl = scan.sourceUrl;
+  button.dataset.recipeTitle = recipe.title;
+  button.dataset.caption = scan.caption;
+  figure.hidden = false;
+}
+
+function openScanDialog(button) {
+  if (!elements.scanDialog) {
+    return;
+  }
+  const title = button.dataset.recipeTitle || "Original source scan";
+  const caption = button.dataset.caption || "Original source scan";
+  const image = elements.scanDialog.querySelector("img");
+  elements.scanDialog.querySelector("h3").textContent = title;
+  elements.scanDialog.querySelector("a").href = button.dataset.sourceUrl || "#";
+  elements.scanDialog.querySelector("p:last-child").textContent = caption;
+  image.src = button.dataset.fullUrl;
+  image.alt = `Enlarged source scan for ${title}`;
+  if (typeof elements.scanDialog.showModal === "function") {
+    elements.scanDialog.showModal();
+  } else {
+    elements.scanDialog.setAttribute("open", "");
+  }
+}
+
 function renderRecipes() {
   const recipes = visibleRecipesForSelectedFamily();
   elements.recipeList.innerHTML = "";
@@ -336,6 +416,7 @@ function renderRecipes() {
       metadataItem("Author", recipe.author),
       metadataItem("Status", recipe.verification_status.replaceAll("_", " "))
     );
+    renderSourceScan(node.querySelector(".recipe-card__scan"), recipe);
     renderIngredients(node.querySelector(".recipe-card__ingredients"), recipe);
     node.querySelector(".recipe-card__copy p").textContent = recipeCopyFor(recipe);
     node.querySelector(".recipe-card__notes").textContent = recipe.notes;
@@ -460,6 +541,20 @@ function bindEvents() {
     elements.statusFilter.value = "all";
     elements.sortSelect.value = "year-asc";
     renderRecipes();
+  });
+  elements.recipeList.addEventListener("click", (event) => {
+    const button = event.target.closest(".recipe-card__scan-button");
+    if (button) {
+      openScanDialog(button);
+    }
+  });
+  elements.scanDialog?.querySelector(".scan-dialog__close")?.addEventListener("click", () => {
+    elements.scanDialog.close();
+  });
+  elements.scanDialog?.addEventListener("click", (event) => {
+    if (event.target === elements.scanDialog) {
+      elements.scanDialog.close();
+    }
   });
 }
 
