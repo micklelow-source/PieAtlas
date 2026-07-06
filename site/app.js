@@ -68,6 +68,14 @@ function countsByFamily() {
   return counts;
 }
 
+function verificationRank(recipe) {
+  if (recipe.verification_status === "rev1_source_text_verified") return 0;
+  if (recipe.verification_status === "rev2_source_text_verified") return 1;
+  if (recipe.verification_status === "rev3_newspaper_index_verified") return 2;
+  if (recipe.verification_status === "rev4_source_manifest_verified") return 3;
+  return 4;
+}
+
 function searchableText(recipe) {
   return [
     recipe.title,
@@ -95,6 +103,8 @@ function filteredRecipes() {
     .filter((recipe) => state.status === "all" || recipe.verification_status === state.status)
     .filter((recipe) => !ingredient || normalize(recipe.ingredients_original).includes(ingredient))
     .sort((a, b) => {
+      const rankDifference = verificationRank(a) - verificationRank(b);
+      if (rankDifference !== 0) return rankDifference;
       if (state.sort === "year-desc") return b.year - a.year;
       if (state.sort === "title-asc") return a.title.localeCompare(b.title);
       return a.year - b.year;
@@ -203,6 +213,14 @@ function metadataItem(label, value) {
   return wrapper;
 }
 
+function recipeCopyFor(recipe) {
+  return recipe.directions_original
+    || recipe.original_text
+    || recipe.directions_modernized
+    || recipe.ingredients_original
+    || "Recipe transcription is queued for enrichment.";
+}
+
 function renderRecipes() {
   const recipes = visibleRecipesForSelectedFamily();
   elements.recipeList.innerHTML = "";
@@ -239,6 +257,7 @@ function renderRecipes() {
     node.querySelector(".recipe-card__ingredients").textContent = recipe.ingredients_original
       ? `Ingredients: ${recipe.ingredients_original}`
       : "Ingredients awaiting transcription.";
+    node.querySelector(".recipe-card__copy p").textContent = recipeCopyFor(recipe);
     node.querySelector(".recipe-card__notes").textContent = recipe.notes;
     elements.recipeList.append(node);
   }
