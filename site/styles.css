@@ -464,11 +464,21 @@ main {
 }
 
 .recipe-card__ingredients p,
+.recipe-card__ingredients ul,
 .recipe-card__copy p {
   margin: 0;
   color: var(--ink);
   line-height: 1.62;
   white-space: pre-wrap;
+}
+
+.recipe-card__ingredients ul {
+  padding-left: 20px;
+  white-space: normal;
+}
+
+.recipe-card__ingredients li + li {
+  margin-top: 4px;
 }
 
 .recipe-card__notes {

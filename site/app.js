@@ -224,7 +224,38 @@ function recipeCopyFor(recipe) {
 function ingredientsFor(recipe) {
   return recipe.ingredients_original
     || recipe.ingredients_modernized
-    || "Ingredients are preserved in the original recipe text below.";
+    || "";
+}
+
+function ingredientItemsFor(recipe) {
+  const ingredients = ingredientsFor(recipe);
+  if (!ingredients) {
+    return [];
+  }
+  const separator = ingredients.includes(";") ? /;\s*/ : /,\s*/;
+  return ingredients
+    .split(separator)
+    .map((item) => item.trim())
+    .filter((item) => item.length > 0);
+}
+
+function renderIngredients(section, recipe) {
+  const list = section.querySelector("ul");
+  const fallback = section.querySelector("p");
+  const items = ingredientItemsFor(recipe);
+  list.innerHTML = "";
+  if (!items.length) {
+    fallback.hidden = false;
+    fallback.textContent = "Ingredients are preserved in the original recipe text below.";
+    return;
+  }
+  fallback.hidden = true;
+  fallback.textContent = "";
+  for (const item of items) {
+    const listItem = document.createElement("li");
+    listItem.textContent = item;
+    list.append(listItem);
+  }
 }
 
 function applySourceLink(link, recipe) {
@@ -276,7 +307,7 @@ function renderRecipes() {
       metadataItem("Author", recipe.author),
       metadataItem("Status", recipe.verification_status.replaceAll("_", " "))
     );
-    node.querySelector(".recipe-card__ingredients p").textContent = ingredientsFor(recipe);
+    renderIngredients(node.querySelector(".recipe-card__ingredients"), recipe);
     node.querySelector(".recipe-card__copy p").textContent = recipeCopyFor(recipe);
     node.querySelector(".recipe-card__notes").textContent = recipe.notes;
     elements.recipeList.append(node);
