@@ -299,6 +299,85 @@ main {
   gap: 16px;
 }
 
+.featured-pie {
+  margin-bottom: 18px;
+}
+
+.featured-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--cranberry);
+  background: var(--panel);
+  box-shadow: 0 10px 28px rgb(44 33 20 / 8%);
+}
+
+.featured-card h3 {
+  margin-bottom: 8px;
+}
+
+.featured-card p:not(.eyebrow) {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.featured-card button,
+.family-card {
+  cursor: pointer;
+}
+
+.featured-card button {
+  flex: 0 0 auto;
+  min-height: 42px;
+  border: 0;
+  background: var(--cranberry);
+  color: #fffaf1;
+  padding: 0 16px;
+  font-weight: 800;
+}
+
+.common-family-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.family-card {
+  display: grid;
+  gap: 8px;
+  min-height: 138px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--green);
+  border-radius: 8px;
+  background: #fffaf1;
+  color: var(--ink);
+  text-align: left;
+  box-shadow: 0 8px 22px rgb(44 33 20 / 7%);
+}
+
+.family-card strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.25rem;
+}
+
+.family-card span {
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.family-card em {
+  align-self: end;
+  color: var(--cranberry);
+  font-style: normal;
+  font-weight: 900;
+}
+
 .recipe-card {
   padding: 22px;
   border: 1px solid var(--line);
@@ -433,6 +512,7 @@ main {
 
   .topbar,
   .recipe-card__header,
+  .featured-card,
   .section-heading {
     align-items: start;
     flex-direction: column;

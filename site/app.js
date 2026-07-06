@@ -21,6 +21,8 @@ const elements = {
   recipeList: document.querySelector("#recipeList"),
   recipeTemplate: document.querySelector("#recipeTemplate"),
   resultCount: document.querySelector("#resultCount"),
+  featuredPie: document.querySelector("#featuredPie"),
+  commonFamilyGrid: document.querySelector("#commonFamilyGrid"),
   familyList: document.querySelector("#familyList"),
   sourceList: document.querySelector("#sourceList"),
   timelineChart: document.querySelector("#timelineChart"),
@@ -51,6 +53,19 @@ function familyName(familyId) {
 
 function normalize(value) {
   return String(value || "").toLowerCase();
+}
+
+function dayOfYear(date) {
+  const start = new Date(date.getFullYear(), 0, 0);
+  return Math.floor((date - start) / 86400000);
+}
+
+function countsByFamily() {
+  const counts = new Map();
+  for (const recipe of state.recipes) {
+    counts.set(recipe.family_id, (counts.get(recipe.family_id) || 0) + 1);
+  }
+  return counts;
 }
 
 function searchableText(recipe) {
@@ -86,6 +101,13 @@ function filteredRecipes() {
     });
 }
 
+function visibleRecipesForSelectedFamily() {
+  if (state.familyId === "all") {
+    return [];
+  }
+  return filteredRecipes();
+}
+
 function renderStats() {
   const sources = new Set(state.recipes.map((recipe) => recipe.source_id));
   const structured = state.recipes.filter((recipe) => !recipe.verification_status.includes("pending")).length;
@@ -97,7 +119,7 @@ function renderStats() {
 
 function renderFilters() {
   elements.familyFilter.innerHTML = [
-    ["all", "All families"],
+    ["all", "Choose a family"],
     ...state.families.map((family) => [family.family_id, family.family_name]),
   ].map(([value, label]) => `<option value="${value}">${label}</option>`).join("");
 
@@ -106,6 +128,69 @@ function renderFilters() {
     ["all", "All statuses"],
     ...statuses.map((status) => [status, status.replaceAll("_", " ")]),
   ].map(([value, label]) => `<option value="${value}">${label}</option>`).join("");
+}
+
+function selectFamily(familyId) {
+  state.familyId = familyId;
+  elements.familyFilter.value = familyId;
+  renderRecipes();
+  document.querySelector("#recipes").scrollIntoView({ behavior: "smooth" });
+}
+
+function makeFamilyButton(family, count) {
+  const button = document.createElement("button");
+  button.className = "family-card";
+  button.type = "button";
+  button.dataset.familyId = family.family_id;
+  const name = document.createElement("strong");
+  const meta = document.createElement("span");
+  const action = document.createElement("em");
+  name.textContent = family.family_name;
+  meta.textContent = `${count.toLocaleString()} recipes | ${family.category}`;
+  action.textContent = "View family";
+  button.append(name, meta, action);
+  button.addEventListener("click", () => selectFamily(family.family_id));
+  return button;
+}
+
+function renderFeaturedPie(counts) {
+  elements.featuredPie.innerHTML = "";
+  if (!state.recipes.length) {
+    return;
+  }
+  const featured = state.recipes[dayOfYear(new Date()) % state.recipes.length];
+  const panel = document.createElement("article");
+  const copy = document.createElement("div");
+  const eyebrow = document.createElement("p");
+  const title = document.createElement("h3");
+  const meta = document.createElement("p");
+  const button = document.createElement("button");
+  panel.className = "featured-card";
+  eyebrow.className = "eyebrow";
+  eyebrow.textContent = "Featured pie of the day";
+  title.textContent = featured.title;
+  meta.textContent = `${familyName(featured.family_id)} | ${featured.year || "year TBD"} | ${featured.source_title}`;
+  button.type = "button";
+  button.textContent = `View ${familyName(featured.family_id)}`;
+  button.addEventListener("click", () => selectFamily(featured.family_id));
+  copy.append(eyebrow, title, meta);
+  panel.append(copy, button);
+  elements.featuredPie.append(panel);
+}
+
+function renderCommonFamilyCards() {
+  const counts = countsByFamily();
+  renderFeaturedPie(counts);
+  elements.commonFamilyGrid.innerHTML = "";
+  const commonFamilies = state.families
+    .filter((family) => counts.has(family.family_id))
+    .sort((a, b) => counts.get(b.family_id) - counts.get(a.family_id))
+    .slice(0, 12);
+  const fragment = document.createDocumentFragment();
+  for (const family of commonFamilies) {
+    fragment.append(makeFamilyButton(family, counts.get(family.family_id)));
+  }
+  elements.commonFamilyGrid.append(fragment);
 }
 
 function metadataItem(label, value) {
@@ -119,9 +204,19 @@ function metadataItem(label, value) {
 }
 
 function renderRecipes() {
-  const recipes = filteredRecipes();
+  const recipes = visibleRecipesForSelectedFamily();
   elements.recipeList.innerHTML = "";
-  elements.resultCount.textContent = `${recipes.length} ${recipes.length === 1 ? "recipe" : "recipes"}`;
+  if (state.familyId === "all") {
+    elements.featuredPie.hidden = false;
+    elements.commonFamilyGrid.hidden = false;
+    elements.resultCount.textContent = "Select a family";
+    renderCommonFamilyCards();
+    return;
+  }
+
+  elements.featuredPie.hidden = true;
+  elements.commonFamilyGrid.hidden = true;
+  elements.resultCount.textContent = `${recipes.length.toLocaleString()} ${recipes.length === 1 ? "recipe" : "recipes"}`;
 
   if (!recipes.length) {
     elements.recipeList.innerHTML = '<p class="empty">No recipes match the current filters.</p>';

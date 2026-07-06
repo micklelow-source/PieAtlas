@@ -16,7 +16,7 @@
         <div class="topbar__links">
           <a href="#timeline">Timeline</a>
           <a href="#rev2">Rev2</a>
-          <a href="#families">Families</a>
+          <a href="#recipes">Pies</a>
           <a href="#sources">Sources</a>
           <a href="./public/data/recipes.json">API</a>
         </div>
@@ -58,7 +58,7 @@
       <section class="workspace" id="recipes">
         <aside class="filters" aria-label="Recipe filters">
           <div class="filter-group">
-            <label for="familyFilter">Family</label>
+            <label for="familyFilter">Selected family</label>
             <select id="familyFilter"></select>
           </div>
           <div class="filter-group">
@@ -83,11 +83,13 @@
         <section class="results" aria-live="polite">
           <div class="section-heading">
             <div>
-              <p class="eyebrow">Searchable website</p>
-              <h2>Recipe Catalog</h2>
+              <p class="eyebrow">Browse by family</p>
+              <h2>Most Common Pies</h2>
             </div>
-            <p id="resultCount">0 recipes</p>
+            <p id="resultCount">Select a family</p>
           </div>
+          <div id="featuredPie" class="featured-pie"></div>
+          <div id="commonFamilyGrid" class="common-family-grid"></div>
           <div id="recipeList" class="recipe-list"></div>
         </section>
       </section>
