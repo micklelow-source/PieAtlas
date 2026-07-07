@@ -450,25 +450,32 @@ main {
   display: grid;
   gap: 8px;
   width: 100%;
-  padding: 0;
+  padding: 12px;
   border: 1px solid var(--line);
   background: #fffaf1;
   color: var(--ink);
   cursor: zoom-in;
-  text-align: left;
+  text-align: center;
 }
 
-.recipe-card__scan-button img {
-  display: block;
+.recipe-card__scan-icon {
+  display: grid;
+  place-items: center;
   width: 100%;
   aspect-ratio: 3 / 4;
-  object-fit: cover;
-  background: #eadfcb;
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgb(255 250 241 / 92%), rgb(234 223 203 / 84%)),
+    repeating-linear-gradient(0deg, transparent 0 13px, rgb(44 33 20 / 12%) 13px 14px);
+  color: var(--cranberry);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
 }
 
 .recipe-card__scan-button span,
 .recipe-card__scan figcaption {
-  padding: 0 10px 10px;
   color: var(--muted);
   font-size: 0.78rem;
   font-weight: 800;
@@ -665,7 +672,7 @@ main {
     grid-template-columns: 1fr;
   }
 
-  .recipe-card__scan-button img {
+  .recipe-card__scan-icon {
     max-height: 280px;
   }
 

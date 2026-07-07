@@ -317,9 +317,8 @@ function sourceScanFor(recipe) {
       const identifier = itemIndex >= 0 ? parts[itemIndex + 1] : "";
       if (identifier) {
         return {
-          thumbUrl: `https://archive.org/services/img/${identifier}`,
           fullUrl: `https://archive.org/services/img/${identifier}`,
-          caption: "Archive.org source scan thumbnail",
+          caption: "Archive.org source scan",
           sourceUrl: url,
         };
       }
@@ -329,7 +328,6 @@ function sourceScanFor(recipe) {
         || parsed.pathname.match(/\/(\d+)(?:\/|$)/)?.[1];
       if (ebookId) {
         return {
-          thumbUrl: `https://www.gutenberg.org/cache/epub/${ebookId}/pg${ebookId}.cover.medium.jpg`,
           fullUrl: `https://www.gutenberg.org/cache/epub/${ebookId}/pg${ebookId}.cover.medium.jpg`,
           caption: "Project Gutenberg source cover",
           sourceUrl: url,
@@ -349,13 +347,6 @@ function renderSourceScan(figure, recipe) {
     return;
   }
   const button = figure.querySelector("button");
-  const image = figure.querySelector("img");
-  image.src = scan.thumbUrl;
-  image.alt = `Source scan thumbnail for ${recipe.source_title || recipe.title}`;
-  image.loading = "lazy";
-  image.addEventListener("error", () => {
-    figure.hidden = true;
-  }, { once: true });
   figure.querySelector("figcaption").textContent = scan.caption;
   button.dataset.fullUrl = scan.fullUrl;
   button.dataset.sourceUrl = scan.sourceUrl;
